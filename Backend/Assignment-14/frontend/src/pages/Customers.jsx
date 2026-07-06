@@ -5,9 +5,9 @@ function Customers() {
   const [formData, setFormData] = useState({ name: '', email: '', phone: '', status: 'Lead' });
   const [errors, setErrors] = useState({});
   const [loading, setLoading] = useState(false);
-  const [editId, setEditId] = useState(null); // எடிட் செய்யும் கஸ்டமரின் ID-ஐ சேமிக்க
+  const [editId, setEditId] = useState(null); 
 
-  // 1. கஸ்டமர்களை எடுத்து வரும் ஃபங்க்ஷன் (Read)
+  
   const fetchCustomers = async () => {
     try {
       const response = await fetch('http://localhost:5000/api/customers');
@@ -43,7 +43,7 @@ function Customers() {
     return Object.keys(localErrors).length === 0;
   };
 
-  // 2. கஸ்டமரை உருவாக்குதல் (Create) மற்றும் மாற்றுதல் (Update)
+  // Create Update
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!validate()) return;
@@ -52,14 +52,13 @@ function Customers() {
     try {
       let response;
       if (editId) {
-        // எடிட் மோடு ஆன் ஆக இருந்தால் PUT API-ஐ அழைக்கும்
         response = await fetch(`http://localhost:5000/api/customers/${editId}`, {
           method: 'PUT',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(formData),
         });
       } else {
-        // புதிய கஸ்டமர் என்றால் POST API-ஐ அழைக்கும்
+        // POST API
         response = await fetch('http://localhost:5000/api/customers', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
@@ -82,7 +81,7 @@ function Customers() {
     }
   };
 
-  // 3. எடிட் பட்டன் கிளிக் செய்யும்போது ஃபார்மிற்கு டேட்டாவை மாற்றுதல்
+  // Put Api
   const handleEdit = (customer) => {
     setEditId(customer._id);
     setFormData({
@@ -93,7 +92,7 @@ function Customers() {
     });
   };
 
-  // 4. கஸ்டமரை நீக்குதல் (Delete)
+  // Delete Api
   const handleDelete = async (id) => {
     if (window.confirm("Are you sure you want to delete this customer?")) {
       try {
@@ -114,7 +113,6 @@ function Customers() {
 
   return (
     <div className="space-y-8">
-      {/* 💳 கஸ்டமர் சேர்க்கும்/எடிட் செய்யும் ஃபார்ம் */}
       <div className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 max-w-5xl mx-auto">
         <h2 className="text-xl font-bold text-slate-800 mb-4">
           {editId ? 'Edit Customer Details' : 'Add New Customer'}
@@ -156,7 +154,6 @@ function Customers() {
         </form>
       </div>
 
-      {/* 📊 கஸ்டமர்கள் லிஸ்ட் டேபிள் */}
       <div className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden max-w-5xl mx-auto">
         <div className="p-5 border-b border-gray-50 flex justify-between items-center bg-slate-50/50">
           <h3 className="font-bold text-slate-800">Customer Directory</h3>

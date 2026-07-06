@@ -2,7 +2,6 @@ const express = require('express');
 const router = express.Router();
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
-// மாடல் ஃபைல் பெயரை உங்கள் எக்ஸ்ப்ளோரருக்கு ஏற்ப மாற்றியுள்ளோம்:
 const User = require('../models/User.model'); 
 
 // 1. REGISTER API

@@ -30,7 +30,6 @@ function Login({ setIsLoggedIn }) {
     return Object.keys(localErrors).length === 0;
   };
 
-  // லாகின் பக்கத்தை பேக்எண்ட் API உடன் இணைக்கும் பகுதி
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!validate()) return;
@@ -50,14 +49,14 @@ function Login({ setIsLoggedIn }) {
       const data = await response.json();
 
       if (response.ok) {
-        // டோக்கனை லோக்கல் ஸ்டோரேஜில் சேமிக்கிறோம் (செஷனுக்காக)
         localStorage.setItem('token', data.token);
         
-        // App.jsx-ல் இருக்கும் லாகின் நிலையை true என மாற்றுகிறோம்
-        setIsLoggedIn(true); 
+        if (typeof setIsLoggedIn === 'function') {
+          setIsLoggedIn(true); 
+        }
 
         alert("Login Successful!");
-        navigate('/'); // முகப்புப் பக்கத்திற்கு (Dashboard) அழைத்துச் செல்கிறது
+        navigate('/'); 
       } else {
         setServerError(data.message || 'Invalid email or password');
       }

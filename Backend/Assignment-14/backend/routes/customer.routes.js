@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const Customer = require('../models/Customer.model'); 
 
-// 1. ADD NEW CUSTOMER API (Create - C)
+// 1. ADD NEW CUSTOMER API \
 router.post('/', async (req, res) => {
   try {
     const { name, email, phone, status } = req.body;
@@ -14,7 +14,7 @@ router.post('/', async (req, res) => {
   }
 });
 
-// 2. GET ALL CUSTOMERS API (Read - R)
+// 2. GET ALL CUSTOMERS API 
 router.get('/', async (req, res) => {
   try {
     const customers = await Customer.find().sort({ createdAt: -1 });
@@ -24,14 +24,14 @@ router.get('/', async (req, res) => {
   }
 });
 
-// 3. UPDATE CUSTOMER API (Update - U) <-- புதிய பகுதி
+// 3. UPDATE CUSTOMER API 
 router.put('/:id', async (req, res) => {
   try {
     const { name, email, phone, status } = req.body;
     const updatedCustomer = await Customer.findByIdAndUpdate(
       req.params.id,
       { name, email, phone, status },
-      { new: true } // அப்டேட் செய்யப்பட்ட புதிய டேட்டாவை ரிட்டன் செய்ய
+      { new: true } 
     );
     if (!updatedCustomer) return res.status(404).json({ message: 'Customer not found' });
     res.json(updatedCustomer);

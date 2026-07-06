@@ -1,17 +1,15 @@
 import React, { useState } from 'react';
-import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Link, Navigate } from 'react-router-dom';
 import Dashboard from './pages/Dashboard';
 import Customers from './pages/Customers';
 import Login from './pages/Login';
 import Register from './pages/Register';
 
 function App() {
-  // லாகின் நிலையை கண்காணிக்க ஒரு State 
-  // வீடியோவில் டெஸ்ட் செய்து காட்ட தற்காலிகமாக true என்று வைத்துள்ளேன்
-  const [isLoggedIn, setIsLoggedIn] = useState(true);
+  const [isLoggedIn, setIsLoggedIn] = useState(!!localStorage.getItem('token'));
 
   const handleLogout = () => {
-    // லாக்அவுட் செய்யும்போது ஸ்டேட்டை false ஆக மாற்றி, லாகின் பக்கத்திற்கு பயனரை அனுப்பலாம்
+    localStorage.removeItem('token');
     setIsLoggedIn(false);
     alert("Logged out successfully!");
   };
@@ -23,10 +21,13 @@ function App() {
         <nav className="bg-slate-800 text-white p-4 flex items-center justify-between shadow-md">
           <b className="text-xl tracking-wide text-indigo-400">⚡ CRM Solution</b>
           <div className="flex gap-6 items-center">
-            <Link to="/" className="hover:text-indigo-300 transition-colors font-medium">Dashboard</Link>
-            <Link to="/customers" className="hover:text-indigo-300 transition-colors font-medium">Customers</Link>
+            {isLoggedIn && (
+              <>
+                <Link to="/" className="hover:text-indigo-300 transition-colors font-medium">Dashboard</Link>
+                <Link to="/customers" className="hover:text-indigo-300 transition-colors font-medium">Customers</Link>
+              </>
+            )}
             
-            {/* Conditional Rendering: லாகின் ஸ்டேட்டை பொறுத்து பட்டன் மாறும் */}
             {isLoggedIn ? (
               <button 
                 onClick={handleLogout}
@@ -48,11 +49,15 @@ function App() {
         {/* Dynamic Page Routes */}
         <div className="max-w-7xl mx-auto mt-6 px-4 pb-12">
           <Routes>
-            {/* Login பக்கத்திற்கு இந்த setIsLoggedIn ஸ்டேட்டை அனுப்புகிறோம், லாகின் ஆகும்போது true செய்ய */}
-            <Route path="/" element={<Dashboard />} />
-            <Route path="/customers" element={<Customers />} />
-            <Route path="/login" element={<Login setIsLoggedIn={setIsLoggedIn} />} />
-            <Route path="/register" element={<Register />} />
+            <Route path="/" element={isLoggedIn ? <Dashboard /> : <Navigate to="/login" />} />
+            
+            <Route 
+              path="/customers" 
+              element={isLoggedIn ? <Customers /> : <Navigate to="/login" />} 
+            /> 
+            
+            <Route path="/login" element={!isLoggedIn ? <Login setIsLoggedIn={setIsLoggedIn} /> : <Navigate to="/" />} />
+            <Route path="/register" element={!isLoggedIn ? <Register /> : <Navigate to="/" />} />
           </Routes>
         </div>
       </div>

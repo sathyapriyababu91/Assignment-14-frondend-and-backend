@@ -38,7 +38,6 @@ function Register() {
     return Object.keys(localErrors).length === 0;
   };
 
-  // பேக்எண்ட் API- உடன் இணைக்கும் முக்கிய பகுதி
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!validate()) return;

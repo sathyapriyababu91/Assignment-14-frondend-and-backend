@@ -1,13 +1,12 @@
 import React from 'react';
 
-// Icons-க்காக மிக எளிய SVG-களை கார்டுகளுக்குள் நேரடியாகப் பயன்படுத்தலாம்
 function Dashboard({ customerCount = 1248 }) {
   
   const stats = [
     { 
       id: 1, 
       title: 'Total Customers', 
-      count: customerCount, // கஸ்டமர்ஸ் லிஸ்ட்டில் இருந்து டைனமிக்காக வரக்கூடியது
+      count: customerCount, 
       change: '+12% this month', 
       bgColor: 'bg-blue-500',
       icon: (
@@ -59,7 +58,6 @@ function Dashboard({ customerCount = 1248 }) {
               <h3 className="text-3xl font-bold text-gray-800 mt-1">{item.count}</h3>
               <p className="text-xs text-gray-400 mt-2 font-medium">{item.change}</p>
             </div>
-            {/* Icons background opacity-25 ஆக மாற்றப்பட்டு ஐகான் உள்ளே வைக்கப்பட்டுள்ளது */}
             <div className={`w-12 h-12 rounded-lg ${item.bgColor} bg-opacity-10 flex items-center justify-center`}>
               {item.icon}
             </div>

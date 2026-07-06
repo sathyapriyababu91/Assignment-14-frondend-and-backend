@@ -1,4 +1,3 @@
-// src/components/MetricCard.jsx
 import React from 'react';
 
 function MetricCard({ title, count, change, bgColor, icon }) {
